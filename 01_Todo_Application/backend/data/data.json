@@ -1,0 +1,52 @@
+[
+  {
+    "id": 2,
+    "name": "Set up Todo API",
+    "status": "completed"
+  },
+  {
+    "id": 3,
+    "name": "Read JSON file",
+    "status": "pending"
+  },
+  {
+    "id": 4,
+    "name": "Create POST endpoint",
+    "status": "pending"
+  },
+  {
+    "id": 5,
+    "name": "Test API using Postman",
+    "status": "completed"
+  },
+  {
+    "id": 6,
+    "name": "Implement DELETE endpoint",
+    "status": "pending"
+  },
+  {
+    "id": 7,
+    "name": "Implement UPDATE endpoint",
+    "status": "pending"
+  },
+  {
+    "id": 8,
+    "name": "Add input validation",
+    "status": "pending"
+  },
+  {
+    "id": 9,
+    "name": "Handle API errors",
+    "status": "pending"
+  },
+  {
+    "id": 10,
+    "name": "Complete Todo Backend",
+    "status": "pending"
+  },
+  {
+    "id": 11,
+    "name": "Learn Express",
+    "status": "pending"
+  }
+]
