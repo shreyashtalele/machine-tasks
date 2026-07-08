@@ -48,5 +48,20 @@
     "id": 11,
     "name": "Learn Express",
     "status": "pending"
+  },
+  {
+    "id": 12,
+    "name": "Learn Javascript ",
+    "status": "pending"
+  },
+  {
+    "id": 13,
+    "name": "Learn Javascript ",
+    "status": "pending"
+  },
+  {
+    "id": 14,
+    "name": "Learn DSA",
+    "status": "pending"
   }
 ]
