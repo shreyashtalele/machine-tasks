@@ -193,5 +193,18 @@
     "isActive": true,
     "createdAt": "2026-07-01T11:20:00.000Z",
     "updatedAt": "2026-07-01T11:20:00.000Z"
+  },
+  {
+    "id": 16,
+    "firstName": "Sneha",
+    "lastName": "Patil",
+    "email": "sneha.patil@example.com",
+    "age": 21,
+    "gender": "Female",
+    "course": "React.js",
+    "city": "Mumbai",
+    "isActive": true,
+    "createdAt": "2026-07-09T02:53:11.317Z",
+    "updatedAt": "2026-07-09T02:53:11.319Z"
   }
 ]
