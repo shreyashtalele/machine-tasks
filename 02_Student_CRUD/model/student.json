@@ -117,19 +117,6 @@
     "updatedAt": "2026-07-01T10:20:00.000Z"
   },
   {
-    "id": 10,
-    "firstName": "Rahul",
-    "lastName": "Mehta",
-    "email": "rahul.mehta@example.com",
-    "age": 27,
-    "gender": "Male",
-    "course": "DevOps",
-    "city": "Ahmedabad",
-    "isActive": true,
-    "createdAt": "2026-07-01T10:30:00.000Z",
-    "updatedAt": "2026-07-01T10:30:00.000Z"
-  },
-  {
     "id": 11,
     "firstName": "Anjali",
     "lastName": "Yadav",
@@ -193,18 +180,5 @@
     "isActive": true,
     "createdAt": "2026-07-01T11:20:00.000Z",
     "updatedAt": "2026-07-01T11:20:00.000Z"
-  },
-  {
-    "id": 16,
-    "firstName": "Sneha",
-    "lastName": "Patil",
-    "email": "sneha.patil@example.com",
-    "age": 21,
-    "gender": "Female",
-    "course": "React.js",
-    "city": "Mumbai",
-    "isActive": true,
-    "createdAt": "2026-07-09T02:53:11.317Z",
-    "updatedAt": "2026-07-09T02:53:11.319Z"
   }
 ]
