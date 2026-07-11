@@ -96,7 +96,7 @@ async function deleteStudent(studentId) {
 
     return {
         success: true,
-        message: "student deleted successfully"
+        message: "Student deleted successfully"
     }
 
 }

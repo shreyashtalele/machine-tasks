@@ -1,70 +1,48 @@
-const e = require('express');
-const fs = require('fs')
-const path = require('path')
 
-const { json } = require('stream/consumers');
-const filePath = path.join(__dirname, "..", "model", "student.json");
-const { getStudents, findStudentById, addStudent, updateStudent, deleteStudent } = require('../services/student.services')
-
-
-async function getAllStudnets(req, res) {
+const { getStudents,
+    findStudentById,
+    addStudent,
+    updateStudent,
+    deleteStudent } = require('../services/student.services')
+async function getAllStudnetsController(req, res, next) {
     try {
-        const student_data = await getStudents()
+        const studentData = await getStudents()
         return res
             .status(200)
             .json({
-                sucess: true,
+                success: true,
                 message: "data fetched sucessfully",
-                data: student_data
+                data: studentData
             })
     }
     catch (error) {
-        return res.status(500).json({
-            status: false,
-            message: "Internal Server Error"
-        })
+        next(error)
     }
 }
 
 
-async function getStudentById(req, res) {
-    const studentId = Number(req.params.id)
-
-    if (isNaN(studentId)) {
-        return res.status(400).json({
-            success: false,
-            message: "Student Id must be the number",
-        })
-    }
+async function getStudentByIdController(req, res, next) {
+    const studentId = Number(req.studentId)
 
     try {
         const student = await findStudentById(studentId)
         if (!student) {
-            return res.status(404).json({
-                success: false,
-                message: "student not found "
-            }
-            )
+            throw new Error("Student not found")
         }
-        else {
-            return res.status(200).json({
-                success: true,
-                message: "student found successfully",
-                data: student
-            })
-        }
+
+        return res.status(200).json({
+            success: true,
+            message: "Student found successfully",
+            data: student
+        })
+
     } catch (error) {
-        return res.status(500).json(
-            {
-                success: false,
-                message: "Internal Server Error"
-            }
-        )
+        next(error)
     }
 }
 
 
-async function createStudentController(req, res) {
+async function createStudentController(req, res, next) {
     const studentData = req.body
 
     try {
@@ -72,78 +50,37 @@ async function createStudentController(req, res) {
         return res.status(201).json(
             {
                 success: true,
-                message: 'student created successfully ',
+                message: "Student created successfully",
                 data: student
             }
         )
     }
     catch (error) {
-
-        if (error.message.includes("required")) {
-            return res.status(400).json({
-                success: false,
-                message: error.message
-            });
-        }
-
-        return res.status(500).json(
-            {
-                success: false,
-                message: error.message
-            }
-        )
+        next(error)
     }
 }
 
 
-async function updateStudentController(req, res) {
-    const studentId = Number(req.params.id)
+async function updateStudentController(req, res, next) {
+    const studentId = req.studentId
     const studentData = req.body
-
-    if (isNaN(studentId)) {
-        return res.status(400).json({
-
-            success: false,
-            message: "please provide a Valid id"
-
-        })
-    }
 
     try {
         const student = await updateStudent(studentId, studentData)
 
         return res.status(200).json({
             success: true,
-            message: "Student updated sucessfully ",
+            message: "Student updated successfully",
             data: student
         })
     } catch (error) {
-        if (error.message === "Student not found") {
-            return res.status(404).json({
-                success: false,
-                message: "student not found"
-            })
-        }
-
-        return res.status(500).json(
-            {
-                success: false,
-                message: "Internal Server error "
-            }
-        )
+        next(error)
     }
 }
 
 
-async function deleteStudentController(req, res) {
-    const studentId = Number(req.params.id)
-    if (isNaN(studentId)) {
-        return res.status(400).json({
-            success: false,
-            message: "provide valid student ID "
-        })
-    }
-
+async function deleteStudentController(req, res, next) {
+    const studentId = req.studentId
     try {
         const { success, message } = await deleteStudent(studentId)
         if (success) {
@@ -152,25 +89,13 @@ async function deleteStudentController(req, res) {
                 message
             })
         }
-
     } catch (error) {
-        if (error.message === 'Student not found') {
-            return res.status(404).json({
-                success: false,
-                message: "student not found"
-            })
-        }
-
-        return res.status(500).json({
-            success: false,
-            message: "Internal Server Error"
-        })
-
+        next(error)
     }
 }
 module.exports = {
-    getAllStudnets,
-    getStudentById,
+    getAllStudnetsController,
+    getStudentByIdController,
     createStudentController,
     updateStudentController,
     deleteStudentController,
