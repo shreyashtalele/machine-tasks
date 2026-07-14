@@ -1,9 +1,9 @@
-import EmployeeForm from "./components/EmployeeForm";
+import EmployeeManagement from "./pages/EmployeeManagement";
 
 function App() {
   return (
     <>
-      <EmployeeForm />
+      <EmployeeManagement />
     </>
   );
 }

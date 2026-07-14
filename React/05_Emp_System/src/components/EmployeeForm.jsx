@@ -1,20 +1,25 @@
 import { useState } from "react";
 import { validateEmployee } from "../utils/validator";
-function EmployeeForm() {
-  const [error, setError] = useState({
+
+function EmployeeForm({
+  employee,
+  setEmployee,
+  addEmployee,
+  initialEmployee,
+  eidtingID,
+  updateEmployee,
+  setEditingId,
+}) {
+  const initialErrors = {
     name: "",
     email: "",
     department: "",
     salary: "",
     joiningDate: "",
-  });
-  const [employee, setEmployee] = useState({
-    name: "",
-    email: "",
-    department: "",
-    salary: "",
-    joiningDate: "",
-  });
+  };
+
+  const [error, setError] = useState(initialErrors);
+
   const handleChange = (e) => {
     setEmployee((prevEmp) => ({
       ...prevEmp,
@@ -32,19 +37,34 @@ function EmployeeForm() {
     if (hasErrors) {
       return;
     }
-
-    console.log(employee);
+    if (eidtingID !== null) {
+      updateEmployee(employee);
+    } else {
+      const newEmployee = {
+        ...employee,
+        id: crypto.randomUUID(),
+      };
+      addEmployee(newEmployee);
+    }
+    setEditingId(null);
+    setEmployee(initialEmployee);
+    setError(initialErrors);
   };
+
   return (
     <div className="min-h-screen bg-gray-100 flex items-center justify-center p-4">
-      <div className="bg-white shadow-lg rounded-xl p-8 w-full max-w-2xl ">
-        <h1 className="text-3xl font-bold text-center text-gray-800 mb-8">
-          Employee Registration Form{" "}
+      <div className="bg-white rounded-xl shadow-md border border-gray-200 p-8 mb-10">
+        <h1 className="text-3xl font-bold text-gray-800 mb-2">
+          Employee Registration
         </h1>
+
+        <p className="text-gray-500 mb-8">
+          Fill in the employee details below.
+        </p>
         <form onSubmit={handleSubmit} className="space-y-5">
           <label
             htmlFor="name"
-            className="block text-sm font-medium text-gray-700 mb-2"
+            className="block text-sm font-medium text-gray-700 mb-1"
           >
             Enter Your Name{" "}
           </label>
@@ -63,7 +83,7 @@ function EmployeeForm() {
 
           <label
             htmlFor="email"
-            className="block text-sm font-medium text-gray-700 mb-2"
+            className="block text-sm font-medium text-gray-700 mb-1"
           >
             Enter Your Email{" "}
           </label>
@@ -80,7 +100,7 @@ function EmployeeForm() {
             onChange={handleChange}
           />
           <label
-            className="block text-sm font-medium text-gray-700 mb-2"
+            className="block text-sm font-medium text-gray-700 mb-1"
             htmlFor="department"
           >
             {error.department && (
@@ -105,7 +125,7 @@ function EmployeeForm() {
 
           <label
             htmlFor="salary"
-            className="block text-sm font-medium text-gray-700 mb-2"
+            className="block text-sm font-medium text-gray-700 mb-1"
           >
             {error.salary && (
               <p className="text-red-500 text-sm mt-1">{error.salary}</p>
@@ -123,7 +143,7 @@ function EmployeeForm() {
 
           <label
             htmlFor="date"
-            className="block text-sm font-medium text-gray-700 mb-2"
+            className="block text-sm font-medium text-gray-700 mb-1"
           >
             Joining Date
           </label>
@@ -143,7 +163,7 @@ function EmployeeForm() {
             className="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-3 rounded-md transition duration-200 cursor-pointer"
             type="submit"
           >
-            Create{" "}
+            {eidtingID !== null ? "Update Employee" : "Create Employee"}
           </button>
         </form>
       </div>
