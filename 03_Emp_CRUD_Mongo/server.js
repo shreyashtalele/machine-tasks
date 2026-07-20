@@ -4,7 +4,6 @@ const MONGO_URL = process.env.MONGO_URL
 const PORT = process.env.PORT
 const app = require('./app')
 const connectDB = require('./config/db');
-const { error } = require("node:console");
 
 
 connectDB(MONGO_URL).then(
