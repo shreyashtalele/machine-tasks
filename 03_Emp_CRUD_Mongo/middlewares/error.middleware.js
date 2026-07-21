@@ -8,7 +8,7 @@ function errorHandler(error, req, res, next) {
         });
     }
 
-    if (error.message.includes("Employee not found")) {
+    if (error.message.includes("Employee not found" || "not found")) {
         return res.status(404)
             .json({
                 success: false,
