@@ -1,6 +1,6 @@
 import React from "react";
 
-function SearchBar({ input, handleInputChange, handleSearch }) {
+function SearchBar({ input, handleInputChange, handleSearch, loading }) {
   return (
     <form
       className="flex flex-col gap-4 sm:flex-row sm:items-center"
@@ -10,8 +10,9 @@ function SearchBar({ input, handleInputChange, handleSearch }) {
         id="github-search"
         type="text"
         value={input}
-        placeholder="Search GitHub User..."
+        placeholder="Search GitHub username..."
         onChange={handleInputChange}
+        disabled={loading}
         className="
           flex-1
           rounded-lg
@@ -28,10 +29,13 @@ function SearchBar({ input, handleInputChange, handleSearch }) {
           focus:border-blue-500
           focus:ring-2
           focus:ring-blue-200
+          disabled:cursor-not-allowed
+          disabled:opacity-60
         "
       />
       <button
         type="submit"
+        disabled={loading}
         className="
           rounded-lg
           bg-blue-600
@@ -43,9 +47,11 @@ function SearchBar({ input, handleInputChange, handleSearch }) {
           duration-200
           hover:bg-blue-700
           active:scale-95
+          disabled:cursor-not-allowed
+          disabled:opacity-60
         "
       >
-        Search
+        {loading ? "searching" : "search"}
       </button>
     </form>
   );

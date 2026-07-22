@@ -4,39 +4,77 @@ import {
   ProfileCard,
   RepositoryList,
   ErrorMessage,
+  Loader,
 } from "../components";
+import { fetchRepositories, fetchUser } from "../Services/githubApi";
+
 function GithubSearch() {
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [user, setUser] = useState(null);
-  const [repositories, setRepositories] = useState([]);
+  const [repositories, setRepositories] = useState(null);
 
   const handleInputChange = (e) => {
     setInput(e.target.value);
   };
 
-  const handleSearch = (e) => {
+  const handleSearch = async (e) => {
     e.preventDefault();
-    console.log("Search Clicked ");
+
     const searchUser = input.trim();
+
     setError(null);
+
     if (!searchUser) {
-      setError("Input is empty ");
+      setError("Please enter a GitHub username.");
       return;
     }
 
-    console.log(searchUser);
+    setLoading(true);
+    setUser(null);
+    setRepositories(null);
+
+    try {
+      const userData = await fetchUser(searchUser);
+      const repoData = await fetchRepositories(searchUser);
+
+      setUser(userData);
+      setRepositories(repoData);
+    } catch (error) {
+      setError(error.message);
+    } finally {
+      setLoading(false);
+    }
   };
+
   return (
-    <div>
+    <div className="mx-auto max-w-6xl px-4 py-10">
       <SearchBar
         input={input}
         handleInputChange={handleInputChange}
         handleSearch={handleSearch}
+        loading={loading}
       />
-      <ProfileCard />
-      <RepositoryList />
+
+      {loading && (
+        <div className="mt-8">
+          <Loader message="Fetching GitHub profile..." />
+        </div>
+      )}
+
+      {error && (
+        <div className="mt-8">
+          <ErrorMessage message={error} />
+        </div>
+      )}
+
+      {!loading && !error && user && (
+        <>
+          <ProfileCard user={user} />
+          <RepositoryList repositories={repositories} />
+        </>
+      )}
     </div>
   );
 }
