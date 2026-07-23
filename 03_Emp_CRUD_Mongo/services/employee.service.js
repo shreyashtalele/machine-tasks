@@ -1,4 +1,4 @@
-const { validateCreateEmployee } = require('../utils/employee.validate')
+const { validateCreateEmployee, validateSortFields } = require('../utils/employee.validate')
 const { Employee } = require('../models/employee.model')
 const createEmployee = async (employeeData) => {
     const validation = validateCreateEmployee(employeeData)
@@ -117,6 +117,50 @@ const addBulkEmployees = async (employees) => {
         totalFailed: errors.length
     }
 }
+
+
+
+const getEmployeesWithPagination = async (page, limit) => {
+
+    page = Number(page) || 1
+    limit = Number(limit) || 10
+    if (page < 1 || limit < 1) {
+        throw new Error("Page and limit must be greater than 0");
+    }
+
+    if (limit > 100) {
+        limit = 100;
+    }
+    const skip = (page - 1) * limit
+    const employees = await Employee.find().skip(skip).limit(limit)
+    const totalEmployees = await Employee.countDocuments();
+    const totalPages = Math.ceil(totalEmployees / limit);
+
+    return {
+        employees,
+        page,
+        limit,
+        totalEmployees,
+        totalPages,
+    }
+}
+
+const getEmployeesWithSort = async (sort = "-createdAt") => {
+    const sortFields = sort.split(",")
+    const sortObject = {}
+
+    for (let field of sortFields) {
+        const isDescending = field.startsWith('-');
+        const fieldName = isDescending ? field.slice(1) : field
+        validateSortFields(fieldName)
+        const direction = isDescending ? -1 : 1
+        sortObject[fieldName] = direction
+    }
+
+    const employees = await Employee.find().sort(sortObject)
+
+    return employees
+}
 module.exports = {
     createEmployee,
     getEmployees,
@@ -125,4 +169,7 @@ module.exports = {
     deleteEmployee,
     getEmployeeBySearch,
     addBulkEmployees,
+    getEmployeesWithPagination,
+    getEmployeesWithSort,
+
 }

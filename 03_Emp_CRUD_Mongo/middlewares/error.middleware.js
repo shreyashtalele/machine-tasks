@@ -23,6 +23,12 @@ function errorHandler(error, req, res, next) {
         });
     }
 
+    if (error.name === "Invalid sort field") {
+        return res.status(405).json({
+            success: false,
+            message: "Invalid sort field"
+        });
+    }
 
 
     if (error.code === 11000) {

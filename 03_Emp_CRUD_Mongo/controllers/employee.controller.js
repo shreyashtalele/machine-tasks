@@ -1,10 +1,14 @@
+const e = require('express')
 const { createEmployee,
     getEmployees,
     getEmployeeByID,
     updateEmployee,
     deleteEmployee,
     getEmployeeBySearch,
-    addBulkEmployees } = require('../services/employee.service')
+    addBulkEmployees,
+    getEmployeesWithPagination,
+    getEmployeesWithSort } = require('../services/employee.service')
+const { Employee } = require('../models/employee.model')
 const createEmployeeController = async (req, res, next) => {
     const employeeData = req.body
     try {
@@ -121,6 +125,43 @@ const addBulkEmployeesController = async (req, res, next) => {
     }
 }
 
+const getEmployeesWithPaginationController = async (req, res, next) => {
+    try {
+        const data = await getEmployeesWithPagination(req.query.page, req.query.limit)
+        return res.status(200)
+            .json({
+                success: true,
+                message: 'Employees found successfully',
+                pagination: {
+                    page: data.page,
+                    limit: data.limit,
+                    totalEmployees: data.totalEmployees,
+                    totalPages: data.totalPages
+                },
+                data: data.employees
+            })
+    } catch (error) {
+        next(error)
+    }
+}
+
+const getEmployeesWithSortController = async (req, res, next) => {
+
+    try {
+        const { sort } = req.query
+        const employees = await getEmployeesWithSort(sort)
+
+        return res.status(200)
+            .json({
+                success: true,
+                message: 'Employees sorted successfully',
+                data: employees
+            })
+
+    } catch (error) {
+        next(error)
+    }
+}
 module.exports = {
     createEmployeeController,
     getEmployeesController,
@@ -128,6 +169,7 @@ module.exports = {
     updateEmployeeController,
     deleteEmployeeController,
     getEmployeeBySearchController,
-    addBulkEmployeesController
-
+    addBulkEmployeesController,
+    getEmployeesWithPaginationController,
+    getEmployeesWithSortController,
 }

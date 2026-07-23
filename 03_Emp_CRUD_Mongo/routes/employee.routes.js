@@ -5,13 +5,18 @@ const { createEmployeeController,
     updateEmployeeController,
     deleteEmployeeController,
     getEmployeeBySearchController,
-    addBulkEmployeesController } = require('../controllers/employee.controller')
+    addBulkEmployeesController
+    , getEmployeesWithPaginationController,
+    getEmployeesWithSortController,
+} = require('../controllers/employee.controller')
 const employeeRouter = express.Router()
 
 
 employeeRouter.post('/', createEmployeeController)
 employeeRouter.get('/', getEmployeeBySearchController)
 // employeeRouter.get('/', getEmployeesController)
+employeeRouter.get('/pagination', getEmployeesWithPaginationController)
+employeeRouter.get('/sort', getEmployeesWithSortController)
 employeeRouter.get('/:id', getEmployeeByIdController)
 employeeRouter.put('/:id', updateEmployeeController)
 employeeRouter.delete('/:id', deleteEmployeeController)

@@ -25,6 +25,23 @@ const validateCreateEmployee = (employeeData) => {
     }
 }
 
+const validateSortFields = (field) => {
+    const allowedSortFields = [
+        "salary",
+        "firstName",
+        "lastName",
+        "department",
+        "createdAt"
+    ];
+
+    if (!allowedSortFields.includes(field)) {
+        throw new Error("Invalid sort field");
+    }
+
+    return true
+}
+
 module.exports = {
     validateCreateEmployee,
+    validateSortFields,
 }
